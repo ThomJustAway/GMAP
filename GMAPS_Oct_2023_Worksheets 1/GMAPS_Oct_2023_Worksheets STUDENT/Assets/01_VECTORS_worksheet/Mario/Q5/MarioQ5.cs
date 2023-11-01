@@ -42,8 +42,8 @@ public class MarioQ5 : MonoBehaviour
         if (obj.CompareTag("Planet"))
         {
             body.drag = 1f;
-
             float distance = Mathf.Abs(obj.GetComponent<GravityPoint>().planetRadius - Vector2.Distance(transform.position, obj.transform.position));
+            print(distance);
             if (distance < 1f)
             {
                 isGrounded = distance < 0.5f;

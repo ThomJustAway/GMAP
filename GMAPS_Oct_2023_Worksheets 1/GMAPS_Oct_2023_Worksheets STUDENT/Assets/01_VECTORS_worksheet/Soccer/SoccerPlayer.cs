@@ -63,9 +63,9 @@ public class SoccerPlayer : MonoBehaviour
     {
         foreach (SoccerPlayer other in OtherPlayers)
         {
-            //Vector3 direction = other.transform.position - transform.position;
-            //DebugExtension.DebugArrow(transform.position, direction, Color.red);
-            Debug.DrawRay(transform.position, other.transform.position - transform.position, Color.red);
+            Vector3 direction = other.transform.position - transform.position;
+            DebugExtension.DebugArrow(transform.position, direction, Color.red);
+            //Debug.DrawRay(transform.position, other.transform.position - transform.position, Color.red);
         }
     }
 
@@ -73,23 +73,25 @@ public class SoccerPlayer : MonoBehaviour
     {
         //DebugExtension.DebugArrow(transform.position, transform.forward, Color.red);
 
-        DrawVectors();
+        //DrawVectors();
 
         if (IsCaptain)
         {
             angle += Input.GetAxis("Horizontal") * rotationSpeed;
             transform.localRotation = Quaternion.AngleAxis(angle, Vector3.up);
             Debug.DrawRay(transform.position, transform.forward * 10f, Color.red);
-        
+
             SoccerPlayer targetPlayer = FindClosestPlayerDot();
             targetPlayer.GetComponent<Renderer>().material.color = Color.green;
 
-            foreach(SoccerPlayer other in OtherPlayers.Where(player => player != targetPlayer)) 
+            foreach (SoccerPlayer other in OtherPlayers.Where(player => player != targetPlayer))
             {
                 other.GetComponent<Renderer>().material.color = Color.white;
 
             }
         }
+
+        //Part1();
 
 
     }

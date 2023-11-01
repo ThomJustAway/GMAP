@@ -40,15 +40,14 @@ public class GravityPoint : MonoBehaviour
         //negative value
         float dist = Vector2.Distance(obj.transform.position, transform.position); //finding the gravitation vector of the planet
 
-        if (dist > (planetRadius + gravityMinRange)) // check if the distance of the players out of distance from the minrange of the gravity
-        {
-            float min = planetRadius + gravityMinRange + 0.5f; //this is the radius of both the planet and the min gravity range
+        //if (dist > (planetRadius + gravityMinRange)) // check if the distance of the players out of distance from the minrange of the gravity
+        //{
+        //    float min = planetRadius + gravityMinRange + 0.5f; //this is the radius of both the planet and the min gravity range
 
-            float ratio = ((min + gravityMaxRange) - dist) / gravityMaxRange;
-            gravitationalPower *= ratio; //get the ratio to reduce the gravitational power
-        }
+        //    float ratio = ((min + gravityMaxRange) - dist) / gravityMaxRange;
+        //    gravitationalPower *= ratio; //get the ratio to reduce the gravitational power
+        //}
 
-        Debug.Log(gravitationalPower);
 
         Vector3 dir = (transform.position - obj.transform.position) * gravitationalPower;
 
