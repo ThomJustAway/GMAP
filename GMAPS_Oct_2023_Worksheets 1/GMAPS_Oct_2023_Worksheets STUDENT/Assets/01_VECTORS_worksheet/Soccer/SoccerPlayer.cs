@@ -14,6 +14,7 @@ public class SoccerPlayer : MonoBehaviour
 
     private void Start()
     {
+        //linq method where it get all the gameobject with the soccer player component and filtering out the instance that call it.
         OtherPlayers = FindObjectsOfType<SoccerPlayer>().Where(player => (player != this)).ToArray();
     }
 
@@ -44,28 +45,30 @@ public class SoccerPlayer : MonoBehaviour
         SoccerPlayer closest = null;
         float minAngle = 180f;
 
-        for(int i = 0; i < OtherPlayers.Length; i++)
+        for(int i = 0; i < OtherPlayers.Length; i++) //go through all the players in the array
         {
             float dot = Dot(transform.forward, OtherPlayers[i].transform.position.normalized);
             float angle = Mathf.Acos(dot) * Mathf.Rad2Deg;
-
+            //find the angle of the player 
             if(angle < minAngle)
-            {
+            {//check if the angle found is the closest
                 minAngle = angle;
                 closest = OtherPlayers[i];
+                //if it is, then the player is closer than previous closer player. replace the closest player and angle 
             }
         }
+        //after going through this loop, it means that we have found the closest player from the captain
 
         return closest;
     }
 
     void DrawVectors()
     {
+        //this function is to draw the direction form transform to all the other players
         foreach (SoccerPlayer other in OtherPlayers)
         {
             Vector3 direction = other.transform.position - transform.position;
             DebugExtension.DebugArrow(transform.position, direction, Color.red);
-            //Debug.DrawRay(transform.position, other.transform.position - transform.position, Color.red);
         }
     }
 
@@ -78,7 +81,9 @@ public class SoccerPlayer : MonoBehaviour
         if (IsCaptain)
         {
             angle += Input.GetAxis("Horizontal") * rotationSpeed;
-            transform.localRotation = Quaternion.AngleAxis(angle, Vector3.up);
+            transform.localRotation = Quaternion.AngleAxis(angle, Vector3.up); //rotate the captain
+
+            //show the transform forward and the angle it is looking.
             Debug.DrawRay(transform.position, transform.forward * 10f, Color.red);
 
             SoccerPlayer targetPlayer = FindClosestPlayerDot();
@@ -91,37 +96,12 @@ public class SoccerPlayer : MonoBehaviour
             }
         }
 
-        //Part1();
 
 
     }
 
-    private void Part1()
-    {
-        CaptainsMove();
-        foreach (var other in OtherPlayers)
-        {
-            GetAngles(other.transform.position);
-        }
-    }
 
-    private void GetAngles( Vector3 b)
-    {
-        float dotProduct = Dot(transform.forward, b);
-        float ratio = dotProduct / (Magnitude(transform.forward) * Magnitude(b));
-        float radian = Mathf.Acos(ratio);
-        float angle = radian * Mathf.Rad2Deg;
-        print(angle);
-    }
 
-    private void CaptainsMove()
-    {
-        if (IsCaptain)
-        {
-            DrawVectors();
-            DebugExtension.DebugArrow(transform.position, transform.forward, Color.blue);
-        }
-    }
 }
 
 

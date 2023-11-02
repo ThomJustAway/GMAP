@@ -81,7 +81,9 @@ public class HVector2D
         dummyProjectedVector.Normalize();
         return dummyProjectedVector * dummyProjectedVector.DotProduct(this);
 
-        //thought was that dot product is projectlength * magnitude of the length. so to get the 
+        //there is still another formula to use but that is fine.
+
+        //thought was that dot product is projectlength * magnitude of the length. 
 
     }
 
@@ -95,11 +97,13 @@ public class HVector2D
         float dotproduct = this.DotProduct(vectorToMeasuredAgainst);
         float ratio = dotproduct / (this.Magnitude() * vectorToMeasuredAgainst.Magnitude());
         //normalize both vector to measure the dot product.
-        float angle = math.acos(ratio) * (180/math.PI);
+        float angle = math.acos(ratio) * (180/math.PI); 
+        //find the angle using the formula 
+
         //found the resource here https://stackoverflow.com/questions/2150050/finding-signed-angle-between-vectors
 
         if ((this.x * vectorToMeasuredAgainst.y - this.y * vectorToMeasuredAgainst.x ) < 0)
-        {
+        {//figure out if the angle is clockwise or not.
             angle = -angle;
         }
 
