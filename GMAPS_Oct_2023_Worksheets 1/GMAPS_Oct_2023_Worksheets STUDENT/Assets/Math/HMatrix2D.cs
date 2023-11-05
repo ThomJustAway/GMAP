@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Xml;
 using Unity.VisualScripting;
@@ -13,7 +14,12 @@ public class HMatrix2D
 
     public HMatrix2D()
     {
-        entries = new float[3, 3];
+        entries = new float[,]
+        {
+            {1, 0 , 0 },
+            {0, 1 , 0 },
+            {0 , 0 , 1}
+        } ;
     }
 
     public HMatrix2D(float[,] multiArray)
@@ -94,29 +100,15 @@ public class HMatrix2D
     {
         if (left.entries.GetLength(1) != 2 || left.entries.GetLength(0) != 2 )
         {
-            throw new InvalidOperationException("now 2d matrix");
+            throw new InvalidOperationException("The column of the 2D matrix is not the same as the vector");
         }
 
-        HVector2D dummyVector = new HVector2D();
+        return new HVector2D(
+                ((left.entries[0, 0] * right.x) + (left.entries[0, 1] * right.y)) ,
+                ((left.entries[1, 0] * right.x) + (left.entries[1, 1] * right.y))
+                );
 
-        for(int i = 0; i < left.entries.GetLength(0); i++)
-        {
-            float totalValue = 0;
-            for(int j = 0; j < left.entries.GetLength(1); j++)
-            {
-                totalValue += left.entries[i, j];
-            }
-            if(i == 0)
-            {
-                dummyVector.x = totalValue;
-            }
-            else
-            {
-                dummyVector.y = totalValue;
-                
-            }
-        }
-        return dummyVector;
+        
 
     }
 
@@ -131,39 +123,19 @@ public class HMatrix2D
         //init matrix
 
         for(int i = 0; i < left.entries.GetLength(0);i++)
-        {
+        {//when multiply, use the row
             for(int j = 0; j < right.entries.GetLength(1); j++)
-            {
+            { //would require the col of the right to multiply them together
                 float sum = 0;
-                for(int k = 0;  k < left.entries.GetLength(1); k++)
+                for(int k = 0;  k < left.entries.GetLength(1); k++) //need to iterate over all the values in selected left row to multiply and add them together
                 {//as the left col == right row, we can sum them up
-                    sum += left.entries[i, k] + right.entries[k, j];
+                    sum += left.entries[i, k] * right.entries[k, j]; //multiply the two values together and add them to the total sum of the left col and right row
                 }
-                dummyMatrix.entries[i, j] = sum;
+                dummyMatrix.entries[i, j] = sum; //adding it in the matrix
             }
         }
 
         return dummyMatrix;
-
-
-    //    return new HMatrix2D
-    //    (
-    //        /* 
-    //            00 01 02    00 xx xx
-    //            xx xx xx    10 xx xx
-    //            xx xx xx    20 xx xx
-    //            */
-    //        left.Entries[0, 0] * right.Entries[0, 0] + left.Entries[0, 1] * right.Entries[1, 0] + left.Entries[0, 2] * right.Entries[2, 0],
-
-    //        /* 
-    //            00 01 02    xx 01 xx
-    //            xx xx xx    xx 11 xx
-    //            xx xx xx    xx 21 xx
-    //            */
-    //        left.Entries[0, 0] * right.Entries[0, 1] + left.Entries[0, 1] * right.Entries[1, 1] + left.Entries[0, 2] * right.Entries[2, 1],
-
-    //    // and so on for another 7 entries
-    //);
     }
 
     public static bool operator ==(HMatrix2D left, HMatrix2D right)
@@ -176,15 +148,21 @@ public class HMatrix2D
 
         //big(o) of n^2
 
-        for(int i = 0; i < left.entries.GetLength(0);i++)
-        {
-            for(int j = 0; j < left.entries.GetLength(1); j++)
-            {
+        //for(int i = 0; i < left.entries.GetLength(0);i++)
+        //{
+        //    for(int j = 0; j < left.entries.GetLength(1); j++)
+        //    {
+        //        if (left.entries[i, j] != right.entries[i, j]) return false;
+        //    }
+        //}
+        //return true;
+
+        for (int i = 0; i < left.entries.GetLength(0); i++)
+            for (int j = 0; j < right.entries.GetLength(1); j++)
                 if (left.entries[i, j] != right.entries[i, j]) return false;
-            }
-        }
         return true;
-        // your code here
+
+        
     }
 
     public static bool operator !=(HMatrix2D left, HMatrix2D right)
@@ -243,10 +221,34 @@ public class HMatrix2D
         return entries[0,0] * entries[1,1] - entries[0,1] * entries[1,0];
     }
 
-    //public void setIdentity()
-    //{
-    //    // your code here
-    //}
+    public void setIdentity()
+    {
+        if(entries.GetLength(0) != entries.GetLength(1))
+        {
+            throw new InvalidOperationException("matrix must have the same column and row");
+        }
+
+        //for (int i = 0; i < entries.GetLength(0); i++)
+        //{
+        //    for (int j = 0; j < entries.GetLength(1); j++)
+        //    {
+        //        if (i == j)
+        //        {
+        //            entries[i, j] = 1;
+        //        }
+        //        else
+        //        {
+        //            entries[i, j] = 0;
+        //        }
+        //    }
+        //}
+        //normal version
+
+        for (int i = 0; i < entries.GetLength(0); i++)
+            for (int j = 0; j < entries.GetLength(1); j++)
+                entries[i , j] = i == j ? 1 : 0;
+        //ternary operator
+    }
 
     //public void setTranslationMat(float transX, float transY)
     //{
@@ -255,6 +257,8 @@ public class HMatrix2D
 
     public void setRotationMat(float rotDeg)
     {
+        setIdentity();
+        float rad = rotDeg * Mathf.Deg2Rad; //convert to rad
 
         // your code here
     }
