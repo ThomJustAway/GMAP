@@ -16,12 +16,12 @@ public class MeshManager : MonoBehaviour
         originalMesh = meshFilter.sharedMesh;
         clonedMesh = new Mesh();
         clonedMesh.name = "clone";
-        clonedMesh.vertices = originalMesh.vertices;
-        clonedMesh.triangles = originalMesh.triangles;
-        clonedMesh.normals = originalMesh.normals;
-        clonedMesh.uv = originalMesh.uv;
-        meshFilter.mesh = clonedMesh;
+        clonedMesh.vertices = (Vector3[])originalMesh.vertices.Clone();
+        clonedMesh.triangles = (int[])originalMesh.triangles.Clone();
+        clonedMesh.normals = (Vector3[])originalMesh.normals.Clone();
+        clonedMesh.uv = (Vector2[])originalMesh.uv.Clone();
 
+        meshFilter.mesh = clonedMesh;
         vertices = clonedMesh.vertices;
         triangles = clonedMesh.triangles;
     }

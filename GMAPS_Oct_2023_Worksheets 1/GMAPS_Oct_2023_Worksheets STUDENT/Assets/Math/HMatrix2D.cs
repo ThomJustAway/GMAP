@@ -98,15 +98,10 @@ public class HMatrix2D
     ////
     public static HVector2D operator *(HMatrix2D left, HVector2D right)
     {
-        if (left.entries.GetLength(1) != 2 || left.entries.GetLength(0) != 2 )
-        {
-            throw new InvalidOperationException("The column of the 2D matrix is not the same as the vector");
-        }
-
         return new HVector2D(
-                ((left.entries[0, 0] * right.x) + (left.entries[0, 1] * right.y)) ,
-                ((left.entries[1, 0] * right.x) + (left.entries[1, 1] * right.y))
-                );
+        ((left.entries[0, 0] * right.x) + (left.entries[0, 1] * right.y) + (left.entries[0, 2] * right.h)) ,
+        ((left.entries[1, 0] * right.x) + (left.entries[1, 1] * right.y) + (left.entries[1, 2] * right.h))
+        );
 
         
 
@@ -196,7 +191,7 @@ public class HMatrix2D
     //    // your code here
     //}
 
-    public HMatrix2D transpose()
+    public HMatrix2D Transpose()
     {
         HMatrix2D result = new HMatrix2D(new float[entries.GetLength(1), entries.GetLength(0)]);
 
@@ -211,7 +206,7 @@ public class HMatrix2D
         return result;
     }
 
-    public float getDeterminant()
+    public float GetDeterminant()
     {
         //ad - bc
         if(entries.GetLength(0) != 2 && entries.GetLength(1) != 2)
@@ -221,7 +216,7 @@ public class HMatrix2D
         return entries[0,0] * entries[1,1] - entries[0,1] * entries[1,0];
     }
 
-    public void setIdentity()
+    public void SetIdentity()
     {
         if(entries.GetLength(0) != entries.GetLength(1))
         {
@@ -250,23 +245,34 @@ public class HMatrix2D
         //ternary operator
     }
 
-    //public void setTranslationMat(float transX, float transY)
-    //{
-    //    // your code here
-    //}
-
-    public void setRotationMat(float rotDeg)
+    public void SetTranslationMat(float transX, float transY)
     {
-        setIdentity();
-        float rad = rotDeg * Mathf.Deg2Rad; //convert to rad
-
-        // your code here
+        SetIdentity();
+        entries[0,2] = transX;
+        entries[1,2] = transY;  
+        
     }
 
-    //public void setScalingMat(float scaleX, float scaleY)
-    //{
-    //    // your code here
-    //}
+    public void SetRotationMat(float rotDeg)
+    {
+        float rad = rotDeg * Mathf.Deg2Rad; //convert to rad
+        SetIdentity();
+
+        //[ [cos a , -sin a] , [ sin a , cos a]]
+
+        entries[0,0] = MathF.Cos(rad);
+        entries[0, 1] = -MathF.Sin(rad);
+        entries[1, 0] = MathF.Sin(rad);
+        entries[1, 1] = MathF.Cos(rad);
+    }
+
+    public void SetScalingMat(float scaleX, float scaleY)
+    {
+        SetIdentity();
+        entries[0,0] = scaleX;
+        entries[1,1] = scaleY;
+        // your code here
+    }
 
     public void Print()
     {

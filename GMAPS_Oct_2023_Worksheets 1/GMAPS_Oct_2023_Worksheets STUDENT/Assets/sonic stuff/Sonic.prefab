@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3800616816674248108}
   - component: {fileID: 3800616816674248111}
   - component: {fileID: 3800616816674248110}
-  - component: {fileID: 3800616816674248105}
-  - component: {fileID: 3800616816674248098}
+  - component: {fileID: 1698455664517513205}
+  - component: {fileID: 4362897357997369868}
   m_Layer: 0
   m_Name: Sonic
   m_TagString: Untagged
@@ -94,13 +94,21 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3800616816674248104}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 4
+  serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3800616816674248105
+--- !u!114 &1698455664517513205
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,20 +117,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 3800616816674248104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c21c2071ec552684583fa46615560dc4, type: 3}
+  m_Script: {fileID: 11500000, guid: fcf56183cd44d5546b604ea95036fc8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4362897357997369868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3800616816674248104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8791a817d6147894290693927760e8c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   originalMesh: {fileID: 0}
   clonedMesh: {fileID: 0}
---- !u!114 &3800616816674248098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3800616816674248104}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e90329dd62668f248bd2278e34eca238, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
