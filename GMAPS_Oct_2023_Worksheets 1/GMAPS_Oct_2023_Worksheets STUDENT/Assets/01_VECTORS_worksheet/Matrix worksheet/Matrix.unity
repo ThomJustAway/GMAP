@@ -139,6 +139,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sonic
       objectReference: {fileID: 0}
+    - target: {fileID: 3800616816674248104, guid: 2346871356ec4eb4581dc6dab41d0722, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3800616816674248109, guid: 2346871356ec4eb4581dc6dab41d0722, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -194,6 +198,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 3800616816674248105, guid: 2346871356ec4eb4581dc6dab41d0722, type: 3}
     - {fileID: 3800616816674248098, guid: 2346871356ec4eb4581dc6dab41d0722, type: 3}
+    - {fileID: 1698455664517513205, guid: 2346871356ec4eb4581dc6dab41d0722, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -326,7 +331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1360164637
 Transform:
   m_ObjectHideFlags: 0
@@ -354,3 +359,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf56183cd44d5546b604ea95036fc8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  question1A: 0
+  question2: 1

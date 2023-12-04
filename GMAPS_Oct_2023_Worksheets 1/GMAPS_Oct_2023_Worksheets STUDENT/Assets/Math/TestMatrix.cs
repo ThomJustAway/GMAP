@@ -7,9 +7,28 @@ namespace Assets.Math
     {
         private HMatrix2D matrix = new HMatrix2D();
         // Use this for initialization
+
+        public bool question1A;
+        public bool question2;
+        
         void Start()
         {
-            Question2();
+            if(question1A)
+            {
+                Question1A();   
+            }
+            else if (question2)
+            {
+                Question2();
+            }
+
+        }
+
+        private void Question1A()
+        {
+            matrix = new HMatrix2D();
+            matrix.SetIdentity();
+            matrix.Print();
         }
 
         private void Question2()

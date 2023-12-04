@@ -24,7 +24,10 @@ public class HMatrix2D
 
     public HMatrix2D(float[,] multiArray)
     {
-        entries = multiArray;
+        //does not use reference of the 
+        for(int row = 0; row < multiArray.GetLength(0); row++) //for each row
+            for(int col = 0; col < multiArray.GetLength(1); col++) //for each col
+                entries[row,col] = multiArray[row,col]; //set the value of the multiarray value to the entries
     }
 
     public HMatrix2D(float m00, float m01, float m02,
@@ -40,57 +43,40 @@ public class HMatrix2D
 
     public static HMatrix2D operator +(HMatrix2D left, HMatrix2D right)
     {
-        if(left.entries.GetLength(0) != right.entries.GetLength(0) && left.entries.GetLength(1) != right.entries.GetLength(1))
-        {
-            throw new InvalidOperationException("cant do operation with different length type");
-        }
-
+        //make a new instance so as to prevent reference
         HMatrix2D dummy = new HMatrix2D(new float[left.entries.GetLength(0) , left.entries.GetLength(1)]);
-        
-        for(int i = 0; i < left.entries.GetLength(0); i++)
-        {
-            for(int j = 0; j <left.entries.GetLength(1); j++)
-            {
-                dummy.entries[i,j] = left.entries[i,j] + right.entries[i,j];
-            }
-        }
+
+        for(int i = 0; i < left.entries.GetLength(0); i++) //for each row
+            for(int j = 0; j <left.entries.GetLength(1); j++) //for each col
+                dummy.entries[i,j] = left.entries[i,j] + right.entries[i,j]; 
+        //set the dummy value of that specific row and column to the sum of the left and right matrix specifc row/col
 
         return dummy;
-
     }
 
     public static HMatrix2D operator -(HMatrix2D left, HMatrix2D right)
     {
-        if (left.entries.GetLength(0) != right.entries.GetLength(0) && left.entries.GetLength(1) != right.entries.GetLength(1))
-        {
-            throw new InvalidOperationException("cant do operation with different length type");
-        }
-
+        //make a new instance so as to prevent reference
         HMatrix2D dummy = new HMatrix2D(new float[left.entries.GetLength(0), left.entries.GetLength(1)]);
 
-        for (int i = 0; i < left.entries.GetLength(0); i++)
-        {
-            for (int j = 0; j < left.entries.GetLength(1); j++)
-            {
+        for (int i = 0; i < left.entries.GetLength(0); i++) //for each row
+            for (int j = 0; j < left.entries.GetLength(1); j++) //for each col
                 dummy.entries[i, j] = left.entries[i, j] - right.entries[i, j];
-            }
-        }
+        //set the dummy value of target row and column of the resulting value of the substraction of left and right of the row and col.
 
         return dummy;
     }
 
     public static HMatrix2D operator *(HMatrix2D left, float scalar)
     {
+        //make a new instance so as to prevent reference
         HMatrix2D dummy = new HMatrix2D(new float[left.entries.GetLength(0), left.entries.GetLength(1)]);
 
-        for (int i = 0; i < left.entries.GetLength(0); i++)
-        {
-            for (int j = 0; j < left.entries.GetLength(1); j++)
-            {
+        for (int i = 0; i < left.entries.GetLength(0); i++) //for each row
+            for (int j = 0; j < left.entries.GetLength(1); j++) //for each col
                 dummy.entries[i, j] = left.entries[i, j] * scalar;
-            }
-        }
-
+        //set the dummy value of target row and column to the resulting value of the left and right multiplication specific row and col
+        
         return dummy;
     }
 
@@ -98,32 +84,31 @@ public class HMatrix2D
     ////
     public static HVector2D operator *(HMatrix2D left, HVector2D right)
     {
+        //the result value for a 3x3 matrix * 1x3 matrix (vector) is 1x3 matrix (vector)
         return new HVector2D(
-        ((left.entries[0, 0] * right.x) + (left.entries[0, 1] * right.y) + (left.entries[0, 2] * right.h)) ,
+        //the dot product of the left matrix first col with the vector row
+        ((left.entries[0, 0] * right.x) + (left.entries[0, 1] * right.y) + (left.entries[0, 2] * right.h)) , 
+        //the dot product of the left matrix second col with the vector row
         ((left.entries[1, 0] * right.x) + (left.entries[1, 1] * right.y) + (left.entries[1, 2] * right.h))
         );
-
-        
 
     }
 
     // Note that the second argument is a HMatrix2D object
     //
     public static HMatrix2D operator *(HMatrix2D left, HMatrix2D right)
-    {
-        if (left.entries.GetLength(1) != right.entries.GetLength(0)) throw new InvalidOperationException("left column must be the same as right row");
-        //making sure that the col of left is the same as the right row
-        
+    {        
         HMatrix2D dummyMatrix = new HMatrix2D(new float[left.entries.GetLength(0), right.entries.GetLength(1)]);
-        //init matrix
+        //use a dummy matrix so as to not make any changes to the left and right matrix.
 
         for(int i = 0; i < left.entries.GetLength(0);i++)
-        {//when multiply, use the row
+        {//Go through each row of the left matrix
             for(int j = 0; j < right.entries.GetLength(1); j++)
-            { //would require the col of the right to multiply them together
-                float sum = 0;
-                for(int k = 0;  k < left.entries.GetLength(1); k++) //need to iterate over all the values in selected left row to multiply and add them together
-                {//as the left col == right row, we can sum them up
+            { //would go through each col of the right matrix to add them up together
+                float sum = 0; //start initialising the a int variable
+                for(int k = 0;  k < left.entries.GetLength(1); k++) 
+                //need to iterate over all the values in selected row and col to multiply them together. Afterward add it to the sum
+                { //as the left col == right row, we can sum them up
                     sum += left.entries[i, k] * right.entries[k, j]; //multiply the two values together and add them to the total sum of the left col and right row
                 }
                 dummyMatrix.entries[i, j] = sum; //adding it in the matrix
@@ -135,56 +120,24 @@ public class HMatrix2D
 
     public static bool operator ==(HMatrix2D left, HMatrix2D right)
     {
-        if (left.entries.GetLength(0) != right.entries.GetLength(0) && left.entries.GetLength(1) != right.entries.GetLength(1))
-        {
-            //made sure that the left and right values are the same. else return false
-            return false;
-        }
-
-        //big(o) of n^2
-
-        //for(int i = 0; i < left.entries.GetLength(0);i++)
-        //{
-        //    for(int j = 0; j < left.entries.GetLength(1); j++)
-        //    {
-        //        if (left.entries[i, j] != right.entries[i, j]) return false;
-        //    }
-        //}
-        //return true;
-
-        for (int i = 0; i < left.entries.GetLength(0); i++)
-            for (int j = 0; j < right.entries.GetLength(1); j++)
-                if (left.entries[i, j] != right.entries[i, j]) return false;
+        for (int i = 0; i < left.entries.GetLength(0); i++) //for each row
+            for (int j = 0; j < right.entries.GetLength(1); j++) //for each col
+                if (left.entries[i, j] != right.entries[i, j]) return false; 
+        //check if the each value from both end are equal. if not then return false
         return true;
-
-        
     }
 
     public static bool operator !=(HMatrix2D left, HMatrix2D right)
     {
-        if (left.entries.GetLength(0) != right.entries.GetLength(0) && left.entries.GetLength(1) != right.entries.GetLength(1))
-        {
-            //made sure that the left and right values are the same. else return false
-            return true;
-        }
-
-        //big(o) of n^2
-        //reverse of ==
-        for (int i = 0; i < left.entries.GetLength(0); i++)
-        {
-            for (int j = 0; j < left.entries.GetLength(1); j++)
-            {
-                if (left.entries[i, j] == right.entries[i, j]) return true;
-            }
-        }
-        return false;
+        //if not both equal, then return false else return true
+        return !(left == right);
     }
 
     //public override bool equals(object obj)
     //{
 
     //    // your code here
-    //}5
+    //}
 
     //public override int GetHashCode()
     //{
@@ -193,16 +146,14 @@ public class HMatrix2D
 
     public HMatrix2D Transpose()
     {
+        //make a copy of it so that it does not change the actually data
+        //the copy rows will be the this matrix columns and vice versa. to make it transpose
         HMatrix2D result = new HMatrix2D(new float[entries.GetLength(1), entries.GetLength(0)]);
 
-        for(int row = 0; row < entries.GetLength(0); row++)
-        {
-            for(int col = 0; col < entries.GetLength(1); col++)
-            {
+        for(int row = 0; row < entries.GetLength(0); row++) //for each row
+            for(int col = 0; col < entries.GetLength(1); col++) //for each col
                 result.entries[col, row ] = entries[row, col];
-            }
-        }
-
+        // the entries row col would be the column row of the copy.
         return result;
     }
 
@@ -218,22 +169,23 @@ public class HMatrix2D
 
     public void SetIdentity()
     {
+        //if the matrix is not 3*3 Ignore this 
         if(entries.GetLength(0) != entries.GetLength(1))
         {
             throw new InvalidOperationException("matrix must have the same column and row");
         }
 
-        //for (int i = 0; i < entries.GetLength(0); i++)
+        //for (int i = 0; i < entries.GetLength(0); i++) //for each row
         //{
-        //    for (int j = 0; j < entries.GetLength(1); j++)
-        //    {
+        //    for (int j = 0; j < entries.GetLength(1); j++) //for each column
+        //    {//the purpose of this problem is to set all the values in the diagonal 1 and anything else 0.
         //        if (i == j)
         //        {
-        //            entries[i, j] = 1;
+        //            entries[i, j] = 1; //if row and column is the same, it mean it is diagonal so set it to 1
         //        }
         //        else
         //        {
-        //            entries[i, j] = 0;
+        //            entries[i, j] = 0; //else set it to zero
         //        }
         //    }
         //}
@@ -241,14 +193,15 @@ public class HMatrix2D
 
         for (int i = 0; i < entries.GetLength(0); i++)
             for (int j = 0; j < entries.GetLength(1); j++)
-                entries[i , j] = i == j ? 1 : 0;
+                entries[i , j] = i == j ? 1 : 0; //three liner
         //ternary operator
     }
 
     public void SetTranslationMat(float transX, float transY)
     {
-        SetIdentity();
-        entries[0,2] = transX;
+        //reset the matrix to become an identity matrix
+        SetIdentity(); 
+        entries[0,2] = transX; //the x and y translation in homogenous coordinate
         entries[1,2] = transY;  
         
     }
@@ -256,9 +209,9 @@ public class HMatrix2D
     public void SetRotationMat(float rotDeg)
     {
         float rad = rotDeg * Mathf.Deg2Rad; //convert to rad
-        SetIdentity();
+        SetIdentity(); //reset the matrix to a identity matrix
 
-        //[ [cos a , -sin a] , [ sin a , cos a]]
+        //[ [cos a , -sin a] , [ sin a , cos a]] following the formula afterwards
 
         entries[0,0] = MathF.Cos(rad);
         entries[0, 1] = -MathF.Sin(rad);
@@ -268,8 +221,10 @@ public class HMatrix2D
 
     public void SetScalingMat(float scaleX, float scaleY)
     {
-        SetIdentity();
-        entries[0,0] = scaleX;
+        SetIdentity(); //reset the matrix
+        //scaling matrix [[scaleX, 0], [0, scaleY]]
+        //follow the scaling matrix
+        entries[0,0] = scaleX; 
         entries[1,1] = scaleY;
         // your code here
     }
