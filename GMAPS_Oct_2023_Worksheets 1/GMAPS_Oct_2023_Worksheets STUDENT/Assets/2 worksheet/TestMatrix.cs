@@ -41,11 +41,11 @@ namespace Assets.Math
                 (5, 6, 7,
                 4, 1, 1,
                 2, 3, 9);
-
             HMatrix2D mat3 = new HMatrix2D(
                 new float[,] {
-                {1 , 2 },
-                {0 , 1 }
+                {1 , 2 ,1},
+                {0 , 1 , 1 },
+                {3,4,5 }
                 }
                 );
 

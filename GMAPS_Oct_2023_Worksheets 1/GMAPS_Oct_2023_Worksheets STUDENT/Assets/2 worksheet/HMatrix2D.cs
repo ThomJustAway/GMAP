@@ -159,11 +159,7 @@ public class HMatrix2D
 
     public float GetDeterminant()
     {
-        //ad - bc
-        if(entries.GetLength(0) != 2 && entries.GetLength(1) != 2)
-        {
-            throw new InvalidOperationException("Require 2 by 2 matrix");
-        }
+        //determinant is basically ad - bc
         return entries[0,0] * entries[1,1] - entries[0,1] * entries[1,0];
     }
 
@@ -202,8 +198,7 @@ public class HMatrix2D
         //reset the matrix to become an identity matrix
         SetIdentity(); 
         entries[0,2] = transX; //the x and y translation in homogenous coordinate
-        entries[1,2] = transY;  
-        
+        entries[1,2] = transY; 
     }
 
     public void SetRotationMat(float rotDeg)
@@ -226,7 +221,6 @@ public class HMatrix2D
         //follow the scaling matrix
         entries[0,0] = scaleX; 
         entries[1,1] = scaleY;
-        // your code here
     }
 
     public void Print()

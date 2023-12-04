@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3800616816674248104, guid: 2346871356ec4eb4581dc6dab41d0722, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3800616816674248109, guid: 2346871356ec4eb4581dc6dab41d0722, type: 3}
       propertyPath: m_RootOrder
@@ -223,6 +223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a2c470224bb3c42bcef28f21d42fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Question5D: 0
+  Question5E: 1
 --- !u!1 &827032438
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,5 +361,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf56183cd44d5546b604ea95036fc8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  question1A: 0
+  question1A: 1
   question2: 1
